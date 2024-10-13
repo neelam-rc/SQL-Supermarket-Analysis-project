@@ -47,7 +47,8 @@ GO
 SELECT DISTINCT customer_type
      , COUNT(*) total_customer_type
 FROM sales_sma
-GROUP BY customer_type 
+GROUP BY customer_type
+GO
 
 --Null Value Check- Check for any null values in the dataset. 
 
@@ -55,6 +56,7 @@ SELECT * FROM sales_sma
 WHERE tid IS NULL OR sale_date IS NULL OR sale_time IS NULL OR customer_type IS NULL OR gender IS NULL
 OR product IS NULL OR payment_mode IS NULL OR payment_mode IS NULL OR unit_price IS NULL OR quantity IS NULL OR cogs IS NULL
 OR tax5 IS NULL OR total_sales IS NULL
+GO
 
 --Auto populate the null values with the available data and verify
 
@@ -75,21 +77,21 @@ GO
 1. **Retrieve all columns for transactions made on '2019-02-14' where the total sale is greater than 300.**:
 ```sql
 SELECT *
- FROM sales_sma
- WHERE sale_date = '2019-02-14' 
+FROM sales_sma
+WHERE sale_date = '2019-02-14' 
     And 
-       total_sales > 300
+      total_sales > 300
  GO
 ```
 
 2. **Find total number of transactions for each product category based on gender.**:
 ```sql
 SELECT gender
-	 , product
-	 , COUNT(*) total_transcations
-from sales_sma
+     , product
+     , COUNT(*) total_transcations
+FROM sales_sma
 GROUP BY gender
-	   , product
+       , product
 ORDER BY 1, 3 DESC
 GO
 ```
@@ -98,7 +100,7 @@ GO
 ```sql
 SELECT product
      , SUM(total_sales) as TotalSales
-	 , count(*) as TotalTransactions
+     , count(*) as TotalTransactions
 FROM sales_sma
 GROUP BY product
 GO
@@ -108,8 +110,8 @@ GO
 ```sql
 SELECT * FROM sales_sma
 WHERE product LIKE 'ELECT%' 
-	AND quantity > 6
-	AND sale_date BETWEEN '2019-03-01' AND '2019-03-31'
+  AND quantity > 6
+  AND sale_date BETWEEN '2019-03-01' AND '2019-03-31'
 GO
 ```
 
@@ -125,7 +127,7 @@ GO
 ```sql
 SELECT payment_mode
      , gender
-	 , COUNT(*) used_frequency
+     , COUNT(*) used_frequency
 FROM sales_sma
 GROUP BY payment_mode
        , gender
@@ -137,9 +139,10 @@ GO
 ```sql
 SELECT T1.product
      , MAX(T2.rating)
-FROM 
-	  sales_sma T1
-JOIN  customers_sma T2
+FROM
+  sales_sma T1
+JOIN
+  customers_sma T2
 ON    T1.rowid = T2.rowid
 GROUP BY T1.product
 GO
@@ -149,11 +152,12 @@ GO
 ```sql
 SELECT T1.city
      , T1.branch
-	 , ROUND(AVG(T2.total_sales),2) avg_sales
+     , ROUND(AVG(T2.total_sales),2) avg_sales
 FROM 
-	 customers_sma T1
-JOIN sales_sma T2
-ON   T1.rowid = T2.rowid
+  customers_sma T1
+JOIN
+  sales_sma T2
+ON T1.rowid = T2.rowid
 GROUP BY T1.city
        , T1.branch
 ORDER BY 3 DESC
@@ -163,9 +167,10 @@ GO
 9. **Find number of orders during each shift (Example Morning <12, Afternoon Between 12 & 17, Evening >17).**:
 ```sql
 WITH hourly_sales
-AS(
+AS
+(
 	SELECT *
-	  ,	CASE
+             , CASE
 			WHEN DATEPART(HOUR, sale_time) < 12 THEN 'Morning'
 			WHEN DATEPART(HOUR, sale_time) BETWEEN 12 AND 17  THEN 'Afternoon'
 			ELSE 'Evening'
@@ -185,14 +190,14 @@ GO
 SELECT sale_month
      , avg_sale
 FROM(
-		SELECT DATENAME(MONTH, sale_date) sale_month
-			 , AVG(total_sales) avg_sale
-			 , RANK() OVER(
-							PARTITION BY DATENAME(MONTH, sale_date) 
-							ORDER BY AVG(total_sales) DESC
-						  ) as rank
-		FROM sales_sma
-		GROUP BY sale_date, total_sales
+	SELECT DATENAME(MONTH, sale_date) sale_month
+             , AVG(total_sales) avg_sale
+             , RANK() OVER(
+ 				PARTITION BY DATENAME(MONTH, sale_date) 
+				ORDER BY AVG(total_sales) DESC
+                           ) as rank
+        FROM sales_sma
+	GROUP BY sale_date, total_sales
 	) AS T1
 WHERE rank = 1 
 GO
