@@ -8,7 +8,7 @@
 
 This project undergoes explore, clean, and analyze supermarket sales data. The project involves setting up a SuperMarket_Analysis sales database, performing exploratory data analysis (EDA), and answering specific business questions through SQL queries. The dataset is from Kaggle. I then made two separate datasets from the original dataset: Sales and Customers to further perform advance analysis.
 
-## Objectives
+## Steps to follow
 
 1. **Set up a retail sales database**: Create and populate a retail sales database with the provided sales data.
 2. **Data Cleaning**: Identify and remove any records with missing or null values.
@@ -74,7 +74,7 @@ GO
 
 ### 3. Data analysis and findings to answer specific business related questions:
 
-1. **Retrieve all columns for transactions made on '2019-02-14' where the total sale is greater than 300.**:
+1. **Retrieve all columns for transactions made on '2019-02-14' where the total sale is greater than 300**:
 ```sql
 SELECT *
 FROM sales_sma
@@ -84,7 +84,7 @@ WHERE sale_date = '2019-02-14'
  GO
 ```
 
-2. **Find total number of transactions for each product category based on gender.**:
+2. **Find total number of transactions for each product category based on gender**:
 ```sql
 SELECT gender
      , product
@@ -96,7 +96,7 @@ ORDER BY 1, 3 DESC
 GO
 ```
 
-3. **Calculate the total sales and total transactions for each product category.**:
+3. **Calculate the total sales and total transactions for each product category**:
 ```sql
 SELECT product
      , SUM(total_sales) as TotalSales
@@ -106,7 +106,7 @@ GROUP BY product
 GO
 ```
 
-4. **Retrieve all transactions where the PRODUCT category is 'Electronics' and the quantity sold is more than 6 in the month of March-2019.**:
+4. **Retrieve all transactions where the PRODUCT category is 'Electronics' and the quantity sold is more than 6 in the month of March-2019**:
 ```sql
 SELECT * FROM sales_sma
 WHERE product LIKE 'ELECT%' 
@@ -115,7 +115,7 @@ WHERE product LIKE 'ELECT%'
 GO
 ```
 
-5. **Find the top 5 customers based on the highest total sale.**:
+5. **Find the top 5 customers based on the highest total sale**:
 ```sql
 SELECT TOP 5 *
 FROM sales_sma
@@ -123,7 +123,7 @@ ORDER BY total_sales DESC
 GO
 ```
 
-6. **Find most frequently used payment mode.**:
+6. **Find most frequently used payment mode**:
 ```sql
 SELECT payment_mode
      , gender
@@ -135,7 +135,7 @@ ORDER BY 3 DESC
 GO
 ```
 
-7. **Find highest rated product in each category.**:
+7. **Find highest rated product in each category**:
 ```sql
 SELECT T1.product
      , MAX(T2.rating)
@@ -148,7 +148,7 @@ GROUP BY T1.product
 GO
 ```
 
-8. **Find average sales wrt branch in each city with highest being at the top.**:
+8. **Find average sales wrt branch in each city with highest being at the top**:
 ```sql
 SELECT T1.city
      , T1.branch
@@ -164,7 +164,7 @@ ORDER BY 3 DESC
 GO
 ```
 
-9. **Find number of orders during each shift (Example Morning <12, Afternoon Between 12 & 17, Evening >17).**:
+9. **Find number of orders during each shift (Example Morning <12, Afternoon Between 12 & 17, Evening >17)**:
 ```sql
 WITH hourly_sales
 AS
@@ -185,7 +185,7 @@ ORDER BY shift ASC
 GO
 ```
 
-10. **Calculate an average sale for each month along with best selling month at the top.**:
+10. **Calculate an average sale for each month along with best selling month at the top**:
 ```sql
 SELECT sale_month
      , avg_sale
