@@ -110,21 +110,21 @@ GO
 --Q1) Retrieve all columns for transactions made on '2019-02-14' where the total sale is greater than 300.
 
 SELECT *
- FROM sales_sma
- WHERE sale_date = '2019-02-14' 
+FROM sales_sma
+WHERE sale_date = '2019-02-14' 
     And 
-       total_sales > 300
- GO	
+      total_sales > 300
+GO	
 
 
 --Q2) Find total number of transactions for each product category based on gender.
 
 SELECT gender
-	 , product
-	 , COUNT(*) total_transcations
-from sales_sma
+     , product
+     , COUNT(*) total_transcations
+FROM sales_sma
 GROUP BY gender
-	   , product
+       , product
 ORDER BY 1, 3 DESC
 GO
 
@@ -133,7 +133,7 @@ GO
 
 SELECT product
      , SUM(total_sales) as TotalSales
-	 , count(*) as TotalTransactions
+     , COUNT(*) as TotalTransactions
 FROM sales_sma
 GROUP BY product
 GO
@@ -143,8 +143,8 @@ GO
 
 SELECT * FROM sales_sma
 WHERE product LIKE 'ELECT%' 
-	AND quantity > 6
-	AND sale_date BETWEEN '2019-03-01' AND '2019-03-31'
+   AND quantity > 6
+   AND sale_date BETWEEN '2019-03-01' AND '2019-03-31'
 GO
 
 
@@ -159,7 +159,7 @@ GO
 
 SELECT payment_mode
      , gender
-	 , COUNT(*) used_frequency
+     , COUNT(*) used_frequency
 FROM sales_sma
 GROUP BY payment_mode
        , gender
@@ -172,9 +172,10 @@ GO
 SELECT T1.product
      , MAX(T2.rating)
 FROM 
-	  sales_sma T1
-JOIN  customers_sma T2
-ON    T1.rowid = T2.rowid
+  	sales_sma T1
+     JOIN  
+  	customers_sma T2
+ON T1.rowid = T2.rowid
 GROUP BY T1.product
 GO
 
@@ -183,10 +184,11 @@ GO
 
 SELECT T1.city
      , T1.branch
-	 , ROUND(AVG(T2.total_sales),2) avg_sales
+     , ROUND(AVG(T2.total_sales),2) avg_sales
 FROM 
-	 customers_sma T1
-JOIN sales_sma T2
+	customers_sma T1
+    JOIN 
+	sales_sma T2
 ON   T1.rowid = T2.rowid
 GROUP BY T1.city
        , T1.branch
@@ -197,9 +199,10 @@ GO
 --Q9) Find number of orders during each shift (Example Morning <12, Afternoon Between 12 & 17, Evening >17)
 
 WITH hourly_sales
-AS(
+AS
+(
 	SELECT *
-	  ,	CASE
+	     , CASE
 			WHEN DATEPART(HOUR, sale_time) < 12 THEN 'Morning'
 			WHEN DATEPART(HOUR, sale_time) BETWEEN 12 AND 17  THEN 'Afternoon'
 			ELSE 'Evening'
@@ -219,16 +222,17 @@ GO
 
 SELECT sale_month
      , avg_sale
-FROM(
-		SELECT DATENAME(MONTH, sale_date) sale_month
-			 , AVG(total_sales) avg_sale
-			 , RANK() OVER(
-							PARTITION BY DATENAME(MONTH, sale_date) 
-							ORDER BY AVG(total_sales) DESC
-						  ) as rank
+FROM
+(
+	SELECT DATENAME(MONTH, sale_date) sale_month
+	     , AVG(total_sales) avg_sale
+	     , RANK() OVER(
+				PARTITION BY DATENAME(MONTH, sale_date) 
+				ORDER BY AVG(total_sales) DESC
+		           ) as rank
 		FROM sales_sma
 		GROUP BY sale_date, total_sales
-	) AS T1
+) AS T1
 WHERE rank = 1 
 GO
 
