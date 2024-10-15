@@ -220,6 +220,13 @@ GO
 
 This project covers database setup, data cleaning, exploratory data analysis, and business-driven SQL queries. The project findings can help drive business decisions by understanding sales patterns and trends, customer purchase and spending behavior, and product performance. 
 
+## Data Visualization in Tableau
+
+The cleaned SQL result set was gathered and imported into Tableau; after which the raw data was ready for a visual analysis to produce reports, charts, and interactive dashboards that provided supermarket sales insights.
+
+Link to Tableau Dashboard: https://shorturl.at/z0M63
+
+
 ## Author - Neelam Chaudhari
 
 This project is part of my SQL portfolio.
