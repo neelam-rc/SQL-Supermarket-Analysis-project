@@ -187,19 +187,13 @@ GO
 
 10. **Calculate an average sale for each month along with best selling month at the top**:
 ```sql
-SELECT sale_month
-     , avg_sale
-FROM(
-	SELECT DATENAME(MONTH, sale_date) sale_month
-             , AVG(total_sales) avg_sale
-             , RANK() OVER(
- 				PARTITION BY DATENAME(MONTH, sale_date) 
-				ORDER BY AVG(total_sales) DESC
-                           ) as rank
-        FROM sales_sma
-	GROUP BY sale_date, total_sales
-	) AS T1
-WHERE rank = 1 
+SELECT YEAR(sale_date) sale_year
+     , DATENAME(MONTH, sale_date) sale_month
+     , AVG(total_sales) avg_sales
+FROM sales_sma
+GROUP BY YEAR(sale_date)
+       , DATENAME(MONTH, sale_date)
+ORDER BY AVG(total_sales) DESC	
 GO
 ```
 
