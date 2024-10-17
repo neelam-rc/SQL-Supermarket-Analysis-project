@@ -222,10 +222,10 @@ GO
 
 SELECT YEAR(sale_date) sale_year
      , DATENAME(MONTH, sale_date) sale_month
-	 , AVG(total_sales) avg_sales
+     , AVG(total_sales) avg_sales
 FROM sales_sma
 GROUP BY YEAR(sale_date)
-     , DATENAME(MONTH, sale_date)
+       , DATENAME(MONTH, sale_date)
 ORDER BY AVG(total_sales) DESC	
 GO
 
